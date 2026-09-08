@@ -71,6 +71,19 @@ def aggregate(moves: list[Move], labels: dict[str, str]) -> dict[tuple[str, str]
     return flows
 
 
+def by_hour(moves: list[Move], labels: dict[str, str], blocks_per_hour: int = 300) -> dict[int, dict[tuple[str, str], Flow]]:
+    """hour index (0 = the oldest) -> flows of that hour. a block belongs to hour (block - first) // blocks_per_hour."""
+    if not moves:
+        return {}
+    first = min(m.block for m in moves)
+    buckets: dict[int, list[Move]] = {}
+    for m in moves:
+        buckets.setdefault((m.block - first) // blocks_per_hour, []).append(m)
+        if (m.block - first) % blocks_per_hour == 0 and (m.block - first) // blocks_per_hour:
+            buckets.setdefault((m.block - first) // blocks_per_hour - 1, []).append(m)  # edge block: both hours
+    return {hour: aggregate(ms, labels) for hour, ms in sorted(buckets.items())}
+
+
 def by_exchange(flows: dict[tuple[str, str], Flow]) -> dict[str, dict[str, float]]:
     """exchange -> {inflow, outflow, net, transfers} summed over the (stable) tokens."""
     out: dict[str, dict[str, float]] = defaultdict(lambda: {"inflow": 0.0, "outflow": 0.0, "net": 0.0, "transfers": 0})
