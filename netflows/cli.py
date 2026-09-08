@@ -51,7 +51,7 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps({"from_block": first, "to_block": latest, "hours": args.hours, "exchanges": summary}, indent=2))
         return 0
     print(f"stablecoin flows, blocks {first:,}-{latest:,} (~{args.hours:g} h), {len(moves):,} transfers scanned")
-    print("work in progress: internal transfers of an exchange count on both sides (issue #1). net is fine, gross is not.")
+    print("work in progress: stablecoins only, no eth leg yet; internal transfers of an exchange are skipped.")
     print()
     print(table(summary, args.min_usd))
     return 0

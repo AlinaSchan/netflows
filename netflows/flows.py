@@ -21,14 +21,18 @@ EXCHANGES = (
 )
 
 
+# one exchange, several spellings in the label list
+ALIASES = {"htx": "huobi", "okex": "okx", "kucoin": "kucoin", "ftx (defunct)": "ftx", "alameda research": "alameda"}
+
+
 def exchange_of(label: str | None) -> str | None:
-    """'binance 14' -> 'binance', 'bitfinex: multisig 2' -> 'bitfinex', 'arbitrum: bridge' -> None."""
+    """'binance 14' -> 'binance', 'bitfinex: multisig 2' -> 'bitfinex', 'htx 1' -> 'huobi', 'arbitrum: bridge' -> None."""
     if not label:
         return None
     low = label.lower()
     for name in EXCHANGES:
         if low == name or low.startswith(name + " ") or low.startswith(name + ":"):
-            return name
+            return ALIASES.get(name, name)
     return None
 
 
@@ -51,13 +55,15 @@ class Flow:
 def aggregate(moves: list[Move], labels: dict[str, str]) -> dict[tuple[str, str], Flow]:
     """(exchange, token) -> flow. a transfer into a labeled wallet is inflow, out of one is outflow.
 
-    known problem (issue #1): a transfer between two wallets of the same exchange is counted
-    as inflow AND outflow. net is right, gross volume is not. the fix is on a branch.
+    a transfer between two wallets of the same exchange (also under two spellings, see ALIASES) is the
+    exchange moving its own money and is not a flow.
     """
     flows: dict[tuple[str, str], Flow] = {}
     for m in moves:
         ex_from = exchange_of(labels.get(m.sender.lower()))
         ex_to = exchange_of(labels.get(m.receiver.lower()))
+        if ex_from and ex_from == ex_to:
+            continue
         for exchange, side in ((ex_to, "inflow"), (ex_from, "outflow")):
             if not exchange:
                 continue

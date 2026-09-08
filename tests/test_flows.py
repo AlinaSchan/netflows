@@ -1,5 +1,4 @@
-"""offline: exchange matching and aggregation. one test is expected to fail until issue #1 is fixed."""
-import pytest
+"""offline: exchange matching and aggregation."""
 from bigmoves.scan import Move
 from bigmoves.tokens import TOKENS
 
@@ -21,6 +20,7 @@ def test_exchange_of_reads_the_label_prefix():
     assert exchange_of("binance 14") == "binance"
     assert exchange_of("bitfinex: multisig 2") == "bitfinex"
     assert exchange_of("gate.io") == "gate.io"
+    assert exchange_of("htx 1") == "huobi" and exchange_of("huobi 5") == "huobi" and exchange_of("okex 2") == "okx"
     assert exchange_of("arbitrum: bridge") is None
     assert exchange_of(None) is None
 
@@ -39,10 +39,15 @@ def test_exchange_to_exchange_is_out_for_one_and_in_for_the_other():
     assert flows[("kraken", "USDT")].net == -5_000_000 and flows[("binance", "USDT")].net == 5_000_000
 
 
-@pytest.mark.xfail(reason="issue #1: a transfer between two wallets of the same exchange counts on both sides", strict=True)
 def test_internal_shuffle_is_not_a_flow():
-    flows = aggregate([move(BINANCE_14, BINANCE_15, 40_000_000)], LABELS)
-    assert flows[("binance", "USDT")].inflow == 0 and flows[("binance", "USDT")].outflow == 0
+    assert ("binance", "USDT") not in aggregate([move(BINANCE_14, BINANCE_15, 40_000_000)], LABELS)
+
+
+def test_renamed_exchange_is_still_one_exchange():
+    labels = {BINANCE_14: "huobi 5", BINANCE_15: "htx 1"}
+    assert not aggregate([move(BINANCE_14, BINANCE_15, 1_000_000)], labels)
+    flows = aggregate([move(SOMEONE, BINANCE_15, 500)], labels)
+    assert flows[("huobi", "USDT")].inflow == 500
 
 
 def test_table_and_money():

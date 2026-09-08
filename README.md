@@ -12,7 +12,7 @@ list from there). **work in progress: do not quote these numbers yet.**
 ```
 $ netflows --hours 1
 stablecoin flows, blocks 25,929,672-25,929,971 (~1 h), 50,454 transfers scanned
-work in progress: internal transfers of an exchange count on both sides (issue #1). net is fine, gross is not.
+work in progress: stablecoins only, no eth leg yet; internal transfers of an exchange are skipped.
 
 exchange                  in       out        net transfers
 binance               $20.5m     $5.8m     $14.8m      1213
@@ -28,9 +28,8 @@ bitstamp               $346k        $0      $346k         3
 
 - [x] usdt, usdc and dai transfers into and out of every wallet the label list knows
 - [x] per exchange: inflow, outflow, net, number of transfers; `--json`
-- [ ] transfers between two wallets of the same exchange are counted on both sides
-      ([#1](https://github.com/alinaschanz/netflows/issues/1)). net is right, gross is
-      inflated, sometimes by a lot: exchanges shuffle their own money all day.
+- [x] transfers between two wallets of the same exchange are skipped, also when the label
+      list spells the exchange two ways (huobi / htx, okex / okx): `ALIASES` in `flows.py`
 - [ ] the eth leg. plain eth needs full blocks; see how bigmoves does `--eth`.
 - [ ] a 24 hour window is 288 `eth_getLogs` calls on a public node. fine once a day in a
       workflow, not fine interactively.
