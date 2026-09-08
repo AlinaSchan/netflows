@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "netflows"
-version = "0.0.1"
+version = "0.0.2"
 description = "stablecoin flows in and out of exchange wallets, from a public rpc. work in progress."
 readme = "README.md"
 requires-python = ">=3.10"
