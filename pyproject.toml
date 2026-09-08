@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "netflows"
+version = "0.0.1"
+description = "stablecoin flows in and out of exchange wallets, from a public rpc. work in progress."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Alina Schanz" }]
+keywords = ["ethereum", "stablecoins", "exchanges", "netflow", "onchain"]
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "Environment :: Console",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+]
+dependencies = ["bigmoves @ git+https://github.com/alinaschanz/bigmoves"]
+
+[project.urls]
+Homepage = "https://github.com/alinaschanz/netflows"
+Issues = "https://github.com/alinaschanz/netflows/issues"
+Author = "https://alinaschanz.life"
+
+[project.scripts]
+netflows = "netflows.cli:main"
+
+[tool.setuptools]
+packages = ["netflows"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 140
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
