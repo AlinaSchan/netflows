@@ -1,12 +1,12 @@
 # netflows
 
-[![ci](https://github.com/alinaschanz/netflows/actions/workflows/ci.yml/badge.svg)](https://github.com/alinaschanz/netflows/actions/workflows/ci.yml)
+[![ci](https://github.com/AlinaSchan/netflows/actions/workflows/ci.yml/badge.svg)](https://github.com/AlinaSchan/netflows/actions/workflows/ci.yml)
 ![status wip](https://img.shields.io/badge/status-work%20in%20progress-d97706)
 ![python 3.10+](https://img.shields.io/badge/python-3.10%2B-3776ab)
 ![license mit](https://img.shields.io/badge/license-MIT-2b7a74)
 
 which exchanges gained or lost stablecoins in the last hour, from the same public rpc as
-[bigmoves](https://github.com/alinaschanz/bigmoves) (it imports the scanner and the label
+[bigmoves](https://github.com/AlinaSchan/bigmoves) (it imports the scanner and the label
 list from there). **work in progress: do not quote these numbers yet.**
 
 ```
@@ -37,7 +37,7 @@ bitstamp               $346k        $0      $346k         3
 ## use
 
 ```
-pipx install git+https://github.com/alinaschanz/netflows     # pulls bigmoves in as a dependency
+pipx install git+https://github.com/AlinaSchan/netflows     # pulls bigmoves in as a dependency
 netflows                     # last hour, usdt usdc dai, exchanges above $100k
 netflows --hours 3 --json
 netflows --labels mine.json  # your labels on top of the built-in list
@@ -51,7 +51,7 @@ public list and prints its rules, so the number can be wrong in a way you can se
 
 ## see also
 
-[bigmoves](https://github.com/alinaschanz/bigmoves) (the transfers), [stablepeg](https://github.com/alinaschanz/stablepeg)
+[bigmoves](https://github.com/AlinaSchan/bigmoves) (the transfers), [stablepeg](https://github.com/AlinaSchan/stablepeg)
 (whether the coins moving are still a dollar), the notes at [alinaschanz.life](https://alinaschanz.life).
 
 ## license

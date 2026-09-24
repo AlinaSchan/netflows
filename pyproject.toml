@@ -18,11 +18,11 @@ classifiers = [
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3 :: Only",
 ]
-dependencies = ["bigmoves @ git+https://github.com/alinaschanz/bigmoves"]
+dependencies = ["bigmoves @ git+https://github.com/AlinaSchan/bigmoves"]
 
 [project.urls]
-Homepage = "https://github.com/alinaschanz/netflows"
-Issues = "https://github.com/alinaschanz/netflows/issues"
+Homepage = "https://github.com/AlinaSchan/netflows"
+Issues = "https://github.com/AlinaSchan/netflows/issues"
 Author = "https://alinaschanz.life"
 
 [project.scripts]
